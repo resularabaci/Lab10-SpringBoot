@@ -1,7 +1,7 @@
 package com.example.Lab10.model;
 
 import jakarta.persistence.*;
-import lombok.Data; // Auto-generates getters/setters
+import lombok.Data;
 
 @Entity
 @Table(name = "users")

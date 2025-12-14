@@ -16,7 +16,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Simple check (in real life, passwords are encrypted!)
     public boolean authenticate(String email, String rawPassword) {
         return userRepository.findByEmail(email)
                 .map(u -> u.getPassword().equals(rawPassword))
