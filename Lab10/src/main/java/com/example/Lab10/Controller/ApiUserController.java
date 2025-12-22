@@ -1,0 +1,37 @@
+package com.example.Lab10.Controller;
+
+import com.example.Lab10.dto.UserRegistrationDto;
+import com.example.Lab10.model.User;
+import com.example.Lab10.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+public class ApiUserController {
+
+    private final UserService userService;
+
+    public ApiUserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDto dto) {
+        User newUser = new User();
+        newUser.setUsername(dto.getUsername());
+        newUser.setEmail(dto.getEmail());
+        newUser.setPassword(dto.getPassword());
+
+        userService.registerUser(newUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<String> getServerInfo(@RequestHeader(value = "User-Agent", defaultValue = "Unknown") String userAgent) {
+        return ResponseEntity.ok("You are accessing from: " + userAgent);
+    }
+}
