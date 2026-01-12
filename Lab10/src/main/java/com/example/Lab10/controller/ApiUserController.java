@@ -1,4 +1,4 @@
-package com.example.Lab10.Controller;
+package com.example.Lab10.controller;
 
 import com.example.Lab10.dto.UserRegistrationDto;
 import com.example.Lab10.model.User;
@@ -6,6 +6,7 @@ import com.example.Lab10.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,5 +34,17 @@ public class ApiUserController {
     @GetMapping("/info")
     public ResponseEntity<String> getServerInfo(@RequestHeader(value = "User-Agent", defaultValue = "Unknown") String userAgent) {
         return ResponseEntity.ok("You are accessing from: " + userAgent);
+    }
+
+    @GetMapping("/admin/secret")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getSecret() {
+        return "This is a secret message only for ADMINS.";
+    }
+
+    @GetMapping("/user/profile")
+    @PreAuthorize("hasRole('USER')")
+    public String getUserProfile() {
+        return "This is your private user profile.";
     }
 }
