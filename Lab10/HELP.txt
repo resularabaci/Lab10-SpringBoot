@@ -1,5 +1,9 @@
 ## Git Basics
-
+git status
 git add .
 git commit -m " explanation "
 git push origin main
+git pull origin main
+
+## Database & Troubleshooting
+Refresh Database: If passwords aren't working, delete database.db and restart the app to start fresh.
