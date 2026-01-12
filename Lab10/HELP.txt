@@ -1,0 +1,5 @@
+## Git Basics
+
+git add .
+git commit -m " explanation "
+git push origin main
