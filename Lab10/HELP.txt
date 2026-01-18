@@ -7,3 +7,37 @@ git pull origin main
 
 ## Database & Troubleshooting
 Refresh Database: If passwords aren't working, delete database.db and restart the app to start fresh.
+
+
+LAB12 Terminal Commands
+
+# Register Alice
+Invoke-RestMethod -Uri "http://localhost:8080/api/users/register" -Method Post -ContentType "application/json" -Body '{"username": "alice", "email": "alice@test.com", "password": "password123"}'
+
+# Login Alice
+$respA = Invoke-RestMethod -Uri "http://localhost:8080/auth/login" -Method Post -ContentType "application/json" -Body '{"email": "alice@test.com", "password": "password123"}'
+$tokenA = $respA.token
+
+# Register Bob
+Invoke-RestMethod -Uri "http://localhost:8080/api/users/register" -Method Post -ContentType "application/json" -Body '{"username": "bob", "email": "bob@test.com", "password": "password123"}'
+
+# Login Bob
+$respB = Invoke-RestMethod -Uri "http://localhost:8080/auth/login" -Method Post -ContentType "application/json" -Body '{"email": "bob@test.com", "password": "password123"}'
+$tokenB = $respB.token
+
+# Create note as a Alice
+Invoke-RestMethod -Uri "http://localhost:8080/api/notes" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Headers @{ Authorization = "Bearer $tokenA" } `
+  -Body '{"content": "Alice secret note - Note ID 1"}'
+
+# Bob tries to delete Alice's Note
+Invoke-RestMethod -Uri "http://localhost:8080/api/notes/1" `
+  -Method Delete `
+  -Headers @{ Authorization = "Bearer $tokenB" }
+
+# Alice can access to note
+Invoke-RestMethod -Uri "http://localhost:8080/api/notes" `
+  -Method Get `
+  -Headers @{ Authorization = "Bearer $tokenA" }

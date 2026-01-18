@@ -1,5 +1,7 @@
 package com.example.Lab10.controller;
 
+import java.util.Map;
+import java.util.HashMap;
 import com.example.Lab10.dto.UserRegistrationDto;
 import com.example.Lab10.model.User;
 import com.example.Lab10.service.UserService;
@@ -32,8 +34,12 @@ public class ApiUserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<String> getServerInfo(@RequestHeader(value = "User-Agent", defaultValue = "Unknown") String userAgent) {
-        return ResponseEntity.ok("You are accessing from: " + userAgent);
+    public ResponseEntity<Map<String, String>> getServerInfo(@RequestHeader(value = "User-Agent", defaultValue = "Unknown") String userAgent) {
+        Map<String, String> response = new HashMap<>();
+        response.put("userAgent", userAgent);
+        response.put("status", "success");
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/admin/secret")

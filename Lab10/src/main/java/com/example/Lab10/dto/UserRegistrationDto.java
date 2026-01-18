@@ -10,7 +10,7 @@ import lombok.Data;
 public class UserRegistrationDto {
 
     @NotBlank(message = "Username is required")
-    @NotForbidden(message = "You cannot use 'admin' as a username") // <--- Added this
+    @NotForbidden(message = "You cannot use 'admin' as a username")
     private String username;
 
     @Email(message = "Invalid email format")

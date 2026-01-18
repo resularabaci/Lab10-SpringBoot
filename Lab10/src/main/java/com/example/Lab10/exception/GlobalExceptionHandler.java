@@ -21,4 +21,19 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleSecurityExceptions(RuntimeException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+
+        if (ex.getMessage().contains("403") || ex.getMessage().contains("Access Denied")) {
+            errorResponse.put("error", "Security Violation");
+            errorResponse.put("message", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+        }
+
+        errorResponse.put("error", "Internal Server Error");
+        errorResponse.put("message", "An unexpected error occurred.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
 }
