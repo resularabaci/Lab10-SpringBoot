@@ -27,7 +27,7 @@ public class UserService {
 
     public boolean authenticate(String email, String rawPassword) {
         return userRepository.findByEmail(email)
-                .map(u -> passwordEncoder.matches(rawPassword, u.getPassword())) // Use .matches()
+                .map(u -> passwordEncoder.matches(rawPassword, u.getPassword()))
                 .orElse(false);
     }
 }
