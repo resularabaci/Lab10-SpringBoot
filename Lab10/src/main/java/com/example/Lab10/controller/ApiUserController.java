@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/users")
@@ -52,5 +53,10 @@ public class ApiUserController {
     @PreAuthorize("hasRole('USER')")
     public String getUserProfile() {
         return "This is your private user profile.";
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok("This is a protected resource. If you see this, you are authenticated!");
     }
 }
